@@ -17,6 +17,7 @@ files exactly as they are in this repository (that's what the empty `.nojekyll` 
 | `faq.html` | MIT BCS PhD Application FAQ |
 | `404.html` | Not-found page |
 | `assets/style.css` | All styling (light + dark theme via CSS custom properties) |
+| `assets/Gun_Ahn_CV.pdf` | Hosted CV, built from the Overleaf project (see below) |
 | `assets/img/` | Portrait, research figures, book covers |
 
 ## Editing
@@ -44,6 +45,26 @@ python3 -m http.server 8899
 ```
 
 Then open <http://localhost:8899>.
+
+## Refreshing the CV
+
+The CV source lives in Overleaf (project `69b2b08f5906cbc19cf9259a`), cloned locally at
+`~/overleaf-cv`. That project builds two PDFs from one source:
+
+- `main.tex` is the full CV, including the mobile number. Use it for applications.
+- `web.tex` sets `\WEBVERSION` to 1 and inputs `main.tex`, producing the same document
+  without the mobile number. This is the copy hosted here, because the site is public
+  and crawlable.
+
+To publish an updated CV:
+
+```bash
+cd ~/overleaf-cv && git pull && latexmk -pdf web.tex
+cp web.pdf ~/Desktop/gunahn.github.io/assets/Gun_Ahn_CV.pdf
+```
+
+Then commit and push this repository. Keep the filename stable so the existing link
+does not break.
 
 ## Deploy
 
