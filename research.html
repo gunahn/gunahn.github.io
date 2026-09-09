@@ -3,11 +3,11 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Research &amp; Projects — Gun Ahn</title>
+<title>Research &amp; Projects · Gun Ahn</title>
 <meta name="description" content="Machine learning for adolescent suicide risk, LLM few-shot treatment prediction, striatal dopamine and astrocyte circuits, and generative models for medical imaging.">
 <meta name="author" content="Gun Ahn">
 <link rel="canonical" href="https://gunahn.github.io/research.html">
-<meta property="og:title" content="Research &amp; Projects — Gun Ahn">
+<meta property="og:title" content="Research &amp; Projects · Gun Ahn">
 <meta property="og:description" content="Machine learning for adolescent suicide risk, LLM few-shot treatment prediction, striatal dopamine and astrocyte circuits, and generative models for medical imaging.">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://gunahn.github.io/research.html">
@@ -46,7 +46,7 @@
   <article class="proj" id="beyond-the-flag">
     <span class="year">2026 · NLP4PI @ EMNLP</span>
     <h2>Beyond the Flag: Clinical Framing Closes the Moderation Gap in Suicide Risk Measurement</h2>
-    <p class="entry-m">Krishnan, Ahn &amp; Kim — accepted at the 5th Workshop on NLP for Positive Impact (NLP4PI), EMNLP 2026. Co-first and corresponding author.</p>
+    <p class="entry-m">Krishnan, Ahn &amp; Kim. Accepted at the 5th Workshop on NLP for Positive Impact (NLP4PI), EMNLP 2026. Co-first and corresponding author.</p>
 
     <div class="kv">
       <h4>Objective</h4>
@@ -58,8 +58,8 @@
     </div>
     <div class="kv">
       <h4>Results</h4>
-      <p>Vendor moderation APIs separate low- from high-severity posts well (<strong>0.860 high-risk F1</strong>) but measure severity poorly (<strong>0.395 macro F1</strong>), systematically over-predicting the most severe category. Clinically grounded zero-shot prompting recovers much of that gap (<strong>0.562 macro F1</strong>), and expert-authored framing — not fine-tuning, added reasoning, or naive multi-agent aggregation — is the effective lever.</p>
-      <p>The value of reasoning depends on register: it hurts on long, noisy Reddit posts and helps on short, clinician-authored statements. We argue graded severity, not a binary flag, is what a proportionate duty of care requires.</p>
+      <p>Vendor moderation APIs separate low from high severity well (<strong>0.860 high-risk F1</strong>) but measure severity poorly (<strong>0.395 macro F1</strong>), systematically over-predicting the most severe category. Clinically grounded zero-shot prompting recovers much of that gap (<strong>0.562 macro F1</strong>), and expert-authored framing is the effective lever, not fine-tuning, added reasoning, or naive multi-agent aggregation.</p>
+      <p>The ordinal metrics show the same split. An open-weight model prompted zero-shot, Llama 3.3 70B, lands within one severity level on <strong>92.8%</strong> of posts against <strong>82.2%</strong> for OpenAI's moderation endpoint at a fixed threshold, and reaches <strong>0.684 QWK</strong> against <strong>0.567</strong>.</p>
     </div>
 
     <figure class="fig viz">
@@ -75,7 +75,7 @@
             <li style="--step:var(--v-s4);--ink:var(--v-i4)">Attempt</li>
           </ol>
           <p class="ladder-axis"><span>lower severity</span><span>higher severity →</span></p>
-          <p class="viz-sub" style="margin-bottom:8px">What a moderation flag records — all four levels collapsed into one bit:</p>
+          <p class="viz-sub" style="margin-bottom:8px">What a moderation flag records, with all four levels collapsed into one bit:</p>
           <ul class="collapse">
             <li>not flagged</li>
             <li>flagged</li>
@@ -83,20 +83,42 @@
         </div>
 
         <div class="viz-panel">
-          <h4>Macro F1 across the four severity levels</h4>
-          <p class="viz-sub">Higher is better. Equal weight on all four levels, so over-predicting the most severe category is penalised.</p>
-          <div class="barchart">
+          <h4>How well each system recovers the ordering</h4>
+          <p class="viz-sub">Two ordinal metrics, the same two systems. Higher is better on both.</p>
+
+          <div class="facet">
+            <h5>Adjacent accuracy</h5>
+            <p class="facet-def">Share of posts placed within one severity level of the psychiatrist's rating.</p>
             <div class="barrow" style="--c:var(--v-api)">
-              <p class="barlab">Vendor moderation API</p>
-              <div class="track"><div class="bar" style="--w:39.5%"></div><span class="barval" style="--w:39.5%">0.395</span></div>
+              <p class="barlab">OpenAI Mod. (Fixed Thresh.)</p>
+              <div class="track"><div class="bar" style="--w:82.2%"></div></div>
+              <span class="barval">0.822</span>
             </div>
             <div class="barrow" style="--c:var(--v-clin)">
-              <p class="barlab">Clinically grounded zero-shot prompting</p>
-              <div class="track"><div class="bar" style="--w:56.2%"></div><span class="barval" style="--w:56.2%">0.562</span></div>
+              <p class="barlab">Llama 3.3 70B (Zero-shot, open-weight)</p>
+              <div class="track"><div class="bar" style="--w:92.8%"></div></div>
+              <span class="barval">0.928</span>
             </div>
             <p class="axis"><span>0.0</span><span>0.5</span><span>1.0</span></p>
           </div>
-          <p class="viz-note">On the <em>binary</em> question — is this post high risk at all? — the same moderation APIs reach <b>0.860</b> F1. They can tell low from high. They cannot tell how high.</p>
+
+          <div class="facet">
+            <h5>Quadratic weighted kappa (QWK)</h5>
+            <p class="facet-def">Agreement on an ordered scale, corrected for chance. Being two levels off is penalised four times as heavily as being one level off. 0 is chance, 1 is perfect.</p>
+            <div class="barrow" style="--c:var(--v-api)">
+              <p class="barlab">OpenAI Mod. (Fixed Thresh.)</p>
+              <div class="track"><div class="bar" style="--w:56.7%"></div></div>
+              <span class="barval">0.567</span>
+            </div>
+            <div class="barrow" style="--c:var(--v-clin)">
+              <p class="barlab">Llama 3.3 70B (Zero-shot, open-weight)</p>
+              <div class="track"><div class="bar" style="--w:68.4%"></div></div>
+              <span class="barval">0.684</span>
+            </div>
+            <p class="axis"><span>0.0</span><span>0.5</span><span>1.0</span></p>
+          </div>
+
+          <p class="viz-note">On the <em>binary</em> question, is this post high risk at all, the moderation API already reaches <b>0.860</b> F1. It can tell low from high. It cannot tell how high.</p>
         </div>
 
       </div>
@@ -106,16 +128,24 @@
         <table>
           <caption class="visually-hidden">Suicide risk measurement scores by method and metric</caption>
           <thead>
-            <tr><th scope="col">Method</th><th scope="col">Macro F1 (4 levels)</th><th scope="col">High-risk F1 (binary)</th></tr>
+            <tr>
+              <th scope="col">Method</th>
+              <th scope="col">Adj. Acc</th>
+              <th scope="col">QWK</th>
+              <th scope="col">Macro F1</th>
+              <th scope="col">High-risk F1</th>
+            </tr>
           </thead>
           <tbody>
-            <tr><th scope="row">Vendor moderation API</th><td>0.395</td><td>0.860</td></tr>
-            <tr><th scope="row">Clinically grounded zero-shot prompting</th><td>0.562</td><td>—</td></tr>
+            <tr><th scope="row">OpenAI Mod. (Fixed Thresh.)</th><td>0.822</td><td>0.567</td><td>0.377</td><td>0.850</td></tr>
+            <tr><th scope="row">OpenAI Mod. (Weighted)</th><td>0.855</td><td>0.604</td><td>0.395</td><td>0.860</td></tr>
+            <tr><th scope="row">Llama 3.3 70B (Zero-shot, open-weight)</th><td>0.928</td><td>0.684</td><td>0.498</td><td>0.855</td></tr>
+            <tr><th scope="row">Best clinically framed zero-shot (Claude Haiku 4.5)</th><td>0.888</td><td>0.696</td><td>0.562</td><td>0.836</td></tr>
           </tbody>
         </table>
       </details>
 
-      <figcaption>A moderation flag is one bit; clinical severity is four ordered levels. Vendor APIs recover the bit (0.860 high-risk F1) but not the ordering (0.395 macro F1); expert-authored clinical framing recovers much of the gap (0.562).</figcaption>
+      <figcaption>A moderation flag is one bit; clinical severity is four ordered levels. The moderation API recovers the bit (0.860 high-risk F1) but not the ordering. An open-weight model prompted zero-shot places 92.8% of posts within one level, against 82.2% for the API, and reaches 0.684 QWK against 0.567.</figcaption>
     </figure>
 
     <div class="tags">
@@ -157,7 +187,7 @@
   <article class="proj">
     <span class="year">2025</span>
     <h2>Predicting Suicidal Attempts Using Psychosocial Data: A Foundation Model Study from the ABCD Cohort</h2>
-    <p class="entry-m">TabPFN — a foundation model for tabular data</p>
+    <p class="entry-m">TabPFN, a foundation model for tabular data</p>
     <p><span class="highlight">92% AUC · 100% sensitivity</span></p>
 
     <div class="kv">
@@ -180,7 +210,7 @@
     </figure>
     <figure class="fig">
       <img src="assets/img/tabpfn-results.png" alt="Validation confusion matrix and ROC curve showing AUC of 0.92 with no false negatives." loading="lazy">
-      <figcaption>Validation confusion matrix and ROC curve — AUC 0.92, no missed attempts.</figcaption>
+      <figcaption>Validation confusion matrix and ROC curve. AUC 0.92, no missed attempts.</figcaption>
     </figure>
   </article>
 
@@ -221,7 +251,7 @@
     <div class="kv">
       <h4>Results</h4>
       <p>The data revealed a two-way relationship between dopamine and astrocytes, with surges in astrocyte calcium following dopamine activity peaks, while decreasing dopamine activity correlated with increased astrocyte responses. Astrocytes were strongly reactive to optogenetically induced dopamine release, and dopamine levels declined following astrocyte optogenetic activation.</p>
-      <p>During the switch in behavioral states — from disengaged to engaged — we observed heightened astrocyte calcium activity. These calcium peaks correlated with the onset of active engagement, hinting at a possible role for astrocytes in initiating engagement.</p>
+      <p>During the switch in behavioral states, from disengaged to engaged, we observed heightened astrocyte calcium activity. These calcium peaks correlated with the onset of active engagement, hinting at a possible role for astrocytes in initiating engagement.</p>
     </div>
 
     <figure class="fig">
@@ -246,7 +276,7 @@
     </div>
     <div class="kv">
       <h4>Results</h4>
-      <p>Only S-D1 neuronal activity, not S-D2, shows pronounced peaks at both the beginning and end of trials — potentially important in the transition from goal-driven behavior to a more nearly ‘packaged’, chunked habitual status of the practiced runs.</p>
+      <p>Only S-D1 neuronal activity, not S-D2, shows pronounced peaks at both the beginning and end of trials, potentially important in the transition from goal-driven behavior to a more nearly ‘packaged’, chunked habitual status of the practiced runs.</p>
     </div>
 
     <figure class="fig">
@@ -271,7 +301,7 @@
     </div>
     <div class="kv">
       <h4>Results</h4>
-      <p>We generated knee X-ray images that accurately reflected the characteristics of each arthritis progression stage — images that neither human experts nor artificial intelligence could distinguish from real ones. Our research opens the potential to adopt generative models to synthesize realistic anonymous images, addressing both data scarcity and class imbalance.</p>
+      <p>We generated knee X-ray images that accurately reflected the characteristics of each arthritis progression stage, images that neither human experts nor artificial intelligence could distinguish from real ones. Our research opens the potential to adopt generative models to synthesize realistic anonymous images, addressing both data scarcity and class imbalance.</p>
     </div>
 
     <figure class="fig">

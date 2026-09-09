@@ -299,10 +299,10 @@ footer {
    (the relief rule) and a table view sits under the figure.
    ============================================================ */
 .viz {
-  /* categorical — identity of a method */
+  /* categorical: identity of a method */
   --v-api:  #eb6834;   /* moderation API      */
   --v-clin: #2a78d6;   /* clinical framing    */
-  /* ordinal — increasing clinical severity, one hue light→dark */
+  /* ordinal: increasing clinical severity, one hue light to dark */
   --v-s1: #6da7ec; --v-s2: #256abf; --v-s3: #184f95; --v-s4: #0d366b;
   --v-i1: #0b1220; --v-i2: #ffffff; --v-i3: #ffffff; --v-i4: #ffffff;
   --v-track: color-mix(in srgb, var(--fg) 8%, transparent);
@@ -355,24 +355,38 @@ footer {
 
 /* --- bar chart --- */
 .barchart { margin: 0; }
-.barrow { margin-bottom: 16px; position: relative; }
-.barlab { font-size: .8rem; color: var(--fg-muted); margin: 0 0 5px; line-height: 1.35; }
-.track {
-  position: relative; height: 26px; background: var(--v-track); border-radius: 4px;
+/* The value sits in its own column rather than floating at the bar end, so a
+   long bar (0.928) can never push its label out of the plot. */
+.barrow {
+  display: grid; grid-template-columns: 1fr auto; gap: 4px 10px;
+  align-items: center; margin-bottom: 14px;
 }
+.barlab {
+  grid-column: 1 / -1;
+  font-size: .8rem; color: var(--fg-muted); margin: 0; line-height: 1.35;
+}
+.track { grid-column: 1; height: 22px; background: var(--v-track); border-radius: 4px; }
 .bar {
-  position: absolute; left: 0; top: 0; bottom: 0; width: var(--w);
+  height: 100%; width: var(--w);
   background: var(--c); border-radius: 0 4px 4px 0;
   box-shadow: 0 0 0 2px var(--bg-soft);   /* 2px surface gap against the track */
 }
 .barval {
-  position: absolute; top: 50%; transform: translateY(-50%);
-  left: calc(var(--w) + 10px);   /* inside .track, so 50% is the bar's own midline */
+  grid-column: 2;
   font-size: .82rem; font-weight: 700; color: var(--fg);
   font-variant-numeric: tabular-nums; white-space: nowrap;
 }
+
+/* small multiples: one metric per facet, each on its own 0-1 axis */
+.facet { margin-bottom: 22px; }
+.facet:last-of-type { margin-bottom: 0; }
+.facet h5 {
+  font-size: .84rem; font-weight: 650; margin: 0 0 2px; color: var(--fg);
+  letter-spacing: -0.005em;
+}
+.facet-def { font-size: .76rem; color: var(--fg-faint); margin: 0 0 12px; line-height: 1.45; }
 .barrow:hover .bar, .barrow:focus-within .bar { filter: brightness(1.08); }
-/* value text keeps a text token on hover — identity is carried by the mark, not the number */
+/* value text keeps a text token on hover; identity is carried by the mark, not the number */
 .barrow:hover .track, .barrow:focus-within .track { box-shadow: 0 0 0 1px var(--rule); }
 .axis {
   display: flex; justify-content: space-between; border-top: 1px solid var(--rule);
