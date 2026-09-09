@@ -28,7 +28,7 @@
       <a href="outreach.html">STEM Outreach</a>
       <a href="books.html">Books</a>
       <a href="faq.html">PhD FAQ</a>
-      <a href="https://medium.com/@gunahnkr" class="ext" target="_blank" rel="noopener">Blog</a>
+      <a href="https://brunch.co.kr/@geonahn" class="ext" target="_blank" rel="noopener">Blog</a>
     </div>
   </div>
 </nav>
@@ -42,6 +42,86 @@
 
 <main id="main">
 <div class="wrap">
+
+  <article class="proj" id="beyond-the-flag">
+    <span class="year">2026 · NLP4PI @ EMNLP</span>
+    <h2>Beyond the Flag: Clinical Framing Closes the Moderation Gap in Suicide Risk Measurement</h2>
+    <p class="entry-m">Krishnan, Ahn &amp; Kim — accepted at the 5th Workshop on NLP for Positive Impact (NLP4PI), EMNLP 2026. Co-first and corresponding author.</p>
+
+    <div class="kv">
+      <h4>Objective</h4>
+      <p>Moderation APIs are built to flag policy-violating content, not to measure graded clinical risk. But a platform’s duty does not end at detection: the response owed to passive distress differs sharply from the response owed to active planning with means access, and emerging regulation (e.g. California Senate Bill 243) is turning that distinction into a compliance requirement. We ask how well deployed safety signals recover clinically meaningful severity.</p>
+    </div>
+    <div class="kv">
+      <h4>Methods</h4>
+      <p>We release a benchmark of 516 r/SuicideWatch posts rated by a licensed psychiatrist on a four-level ordinal schema (Indicator, Ideation, Behavior, Attempt) grounded in the Columbia Suicide Severity Rating Scale, and evaluate moderation APIs, prompted LLMs, and supervised baselines under seven ordinal-aware metrics.</p>
+    </div>
+    <div class="kv">
+      <h4>Results</h4>
+      <p>Vendor moderation APIs separate low- from high-severity posts well (<strong>0.860 high-risk F1</strong>) but measure severity poorly (<strong>0.395 macro F1</strong>), systematically over-predicting the most severe category. Clinically grounded zero-shot prompting recovers much of that gap (<strong>0.562 macro F1</strong>), and expert-authored framing — not fine-tuning, added reasoning, or naive multi-agent aggregation — is the effective lever.</p>
+      <p>The value of reasoning depends on register: it hurts on long, noisy Reddit posts and helps on short, clinician-authored statements. We argue graded severity, not a binary flag, is what a proportionate duty of care requires.</p>
+    </div>
+
+    <figure class="fig viz">
+      <div class="viz-grid">
+
+        <div class="viz-panel">
+          <h4>What a clinician measures</h4>
+          <p class="viz-sub">516 r/SuicideWatch posts, each rated by a licensed psychiatrist on a four-level ordinal schema grounded in the Columbia Suicide Severity Rating Scale.</p>
+          <ol class="ladder">
+            <li style="--step:var(--v-s1);--ink:var(--v-i1)">Indicator</li>
+            <li style="--step:var(--v-s2);--ink:var(--v-i2)">Ideation</li>
+            <li style="--step:var(--v-s3);--ink:var(--v-i3)">Behavior</li>
+            <li style="--step:var(--v-s4);--ink:var(--v-i4)">Attempt</li>
+          </ol>
+          <p class="ladder-axis"><span>lower severity</span><span>higher severity →</span></p>
+          <p class="viz-sub" style="margin-bottom:8px">What a moderation flag records — all four levels collapsed into one bit:</p>
+          <ul class="collapse">
+            <li>not flagged</li>
+            <li>flagged</li>
+          </ul>
+        </div>
+
+        <div class="viz-panel">
+          <h4>Macro F1 across the four severity levels</h4>
+          <p class="viz-sub">Higher is better. Equal weight on all four levels, so over-predicting the most severe category is penalised.</p>
+          <div class="barchart">
+            <div class="barrow" style="--c:var(--v-api)">
+              <p class="barlab">Vendor moderation API</p>
+              <div class="track"><div class="bar" style="--w:39.5%"></div><span class="barval" style="--w:39.5%">0.395</span></div>
+            </div>
+            <div class="barrow" style="--c:var(--v-clin)">
+              <p class="barlab">Clinically grounded zero-shot prompting</p>
+              <div class="track"><div class="bar" style="--w:56.2%"></div><span class="barval" style="--w:56.2%">0.562</span></div>
+            </div>
+            <p class="axis"><span>0.0</span><span>0.5</span><span>1.0</span></p>
+          </div>
+          <p class="viz-note">On the <em>binary</em> question — is this post high risk at all? — the same moderation APIs reach <b>0.860</b> F1. They can tell low from high. They cannot tell how high.</p>
+        </div>
+
+      </div>
+
+      <details class="viz-table">
+        <summary>View the numbers as a table</summary>
+        <table>
+          <caption class="visually-hidden">Suicide risk measurement scores by method and metric</caption>
+          <thead>
+            <tr><th scope="col">Method</th><th scope="col">Macro F1 (4 levels)</th><th scope="col">High-risk F1 (binary)</th></tr>
+          </thead>
+          <tbody>
+            <tr><th scope="row">Vendor moderation API</th><td>0.395</td><td>0.860</td></tr>
+            <tr><th scope="row">Clinically grounded zero-shot prompting</th><td>0.562</td><td>—</td></tr>
+          </tbody>
+        </table>
+      </details>
+
+      <figcaption>A moderation flag is one bit; clinical severity is four ordered levels. Vendor APIs recover the bit (0.860 high-risk F1) but not the ordering (0.395 macro F1); expert-authored clinical framing recovers much of the gap (0.562).</figcaption>
+    </figure>
+
+    <div class="tags">
+      <a class="tag" href="https://arxiv.org/abs/2609.06263" target="_blank" rel="noopener">Paper (arXiv)</a>
+    </div>
+  </article>
 
   <article class="proj">
     <span class="year">2026 · JMIR AI</span>

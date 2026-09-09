@@ -289,3 +289,124 @@ footer {
   .brand { font-size: 1rem; }
   .lede { font-size: 1.14rem; }
 }
+
+/* ============================================================
+   Figure: data visualization
+   Palette slots validated with the dataviz palette validator
+   against the .fig surface (light #f6f7f9 / dark #171a20):
+   categorical pair PASS both modes; the light-mode orange sits
+   at 2.99:1, so every bar carries a visible direct label
+   (the relief rule) and a table view sits under the figure.
+   ============================================================ */
+.viz {
+  /* categorical — identity of a method */
+  --v-api:  #eb6834;   /* moderation API      */
+  --v-clin: #2a78d6;   /* clinical framing    */
+  /* ordinal — increasing clinical severity, one hue light→dark */
+  --v-s1: #6da7ec; --v-s2: #256abf; --v-s3: #184f95; --v-s4: #0d366b;
+  --v-i1: #0b1220; --v-i2: #ffffff; --v-i3: #ffffff; --v-i4: #ffffff;
+  --v-track: color-mix(in srgb, var(--fg) 8%, transparent);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .viz {
+    --v-api:  #d95926;
+    --v-clin: #3987e5;
+    --v-s1: #b7d3f6; --v-s2: #86b6ef; --v-s3: #3987e5; --v-s4: #184f95;
+    --v-i1: #0b1220; --v-i2: #0b1220; --v-i3: #0b1220; --v-i4: #ffffff;
+  }
+}
+:root[data-theme="dark"] .viz {
+  --v-api:  #d95926;
+  --v-clin: #3987e5;
+  --v-s1: #b7d3f6; --v-s2: #86b6ef; --v-s3: #3987e5; --v-s4: #184f95;
+  --v-i1: #0b1220; --v-i2: #0b1220; --v-i3: #0b1220; --v-i4: #ffffff;
+}
+
+.viz { padding: 22px; }
+.viz-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
+.viz-panel > h4 {
+  font-size: .95rem; margin: 0 0 4px; font-weight: 650; letter-spacing: -0.005em; color: var(--fg);
+}
+.viz-sub { font-size: .82rem; color: var(--fg-muted); margin: 0 0 16px; line-height: 1.5; }
+
+/* --- ordinal severity ladder --- */
+.ladder { display: flex; gap: 2px; margin: 0 0 8px; padding: 0; list-style: none; }
+.ladder li {
+  flex: 1; background: var(--step); color: var(--v-on-step);
+  font-size: .72rem; font-weight: 650; text-align: center;
+  padding: 12px 3px; border-radius: 3px; line-height: 1.25;
+}
+.ladder li:first-child { border-radius: 4px 3px 3px 4px; }
+.ladder li:last-child  { border-radius: 3px 4px 4px 3px; }
+.ladder-axis {
+  display: flex; justify-content: space-between;
+  font-size: .72rem; color: var(--fg-faint); margin: 0 0 18px;
+}
+.collapse {
+  display: flex; gap: 2px; margin: 0 0 6px; padding: 0; list-style: none;
+}
+.collapse li {
+  background: var(--v-track); color: var(--fg-muted); border: 1px dashed var(--rule);
+  font-size: .72rem; font-weight: 600; text-align: center;
+  padding: 10px 3px; border-radius: 4px; line-height: 1.25;
+}
+.collapse li:first-child { flex: 1; }
+.collapse li:last-child  { flex: 3; }
+
+/* --- bar chart --- */
+.barchart { margin: 0; }
+.barrow { margin-bottom: 16px; position: relative; }
+.barlab { font-size: .8rem; color: var(--fg-muted); margin: 0 0 5px; line-height: 1.35; }
+.track {
+  position: relative; height: 26px; background: var(--v-track); border-radius: 4px;
+}
+.bar {
+  position: absolute; left: 0; top: 0; bottom: 0; width: var(--w);
+  background: var(--c); border-radius: 0 4px 4px 0;
+  box-shadow: 0 0 0 2px var(--bg-soft);   /* 2px surface gap against the track */
+}
+.barval {
+  position: absolute; top: 50%; transform: translateY(-50%);
+  left: calc(var(--w) + 10px);   /* inside .track, so 50% is the bar's own midline */
+  font-size: .82rem; font-weight: 700; color: var(--fg);
+  font-variant-numeric: tabular-nums; white-space: nowrap;
+}
+.barrow:hover .bar, .barrow:focus-within .bar { filter: brightness(1.08); }
+/* value text keeps a text token on hover — identity is carried by the mark, not the number */
+.barrow:hover .track, .barrow:focus-within .track { box-shadow: 0 0 0 1px var(--rule); }
+.axis {
+  display: flex; justify-content: space-between; border-top: 1px solid var(--rule);
+  padding-top: 5px; font-size: .72rem; color: var(--fg-faint);
+  font-variant-numeric: tabular-nums;
+}
+.viz-note {
+  font-size: .8rem; color: var(--fg-muted); margin: 16px 0 0;
+  padding-left: 11px; border-left: 3px solid var(--v-api); line-height: 1.5;
+}
+.viz-note b { color: var(--fg); font-variant-numeric: tabular-nums; }
+
+/* --- table view (accessibility fallback for the figure) --- */
+.viz-table { margin-top: 14px; }
+.viz-table summary {
+  cursor: pointer; font-size: .8rem; color: var(--fg-muted); list-style: none;
+}
+.viz-table summary::-webkit-details-marker { display: none; }
+.viz-table summary::before { content: "▸ "; }
+.viz-table[open] summary::before { content: "▾ "; }
+.viz-table summary:hover { color: var(--accent); }
+.viz-table table { border-collapse: collapse; margin-top: 10px; font-size: .82rem; width: 100%; }
+.viz-table th, .viz-table td { text-align: left; padding: 6px 12px 6px 0; border-bottom: 1px solid var(--rule); }
+.viz-table th { color: var(--fg-faint); font-weight: 650; }
+.viz-table td { color: var(--fg-muted); font-variant-numeric: tabular-nums; }
+
+@media (max-width: 720px) {
+  .viz { padding: 16px; }
+  .viz-grid { grid-template-columns: 1fr; gap: 26px; }
+  .ladder li { font-size: .64rem; padding: 10px 2px; }
+}
+
+/* screen-reader-only utility */
+.visually-hidden {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
