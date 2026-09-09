@@ -157,6 +157,7 @@ h3 { font-size: 1.12rem; margin: 0 0 6px; }
 .role h3 { font-size: 1.03rem; margin: 0 0 4px; letter-spacing: -0.005em; }
 .role h3 .emo { margin-right: 8px; }
 .role p { margin: 0; color: var(--fg-muted); }
+.role p + p { margin-top: 10px; }
 .closing {
   background: var(--bg-soft); border: 1px solid var(--rule); border-radius: var(--radius);
   padding: 18px 20px; color: var(--fg-muted); font-style: italic; margin-top: 6px;
